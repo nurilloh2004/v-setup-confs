@@ -1,0 +1,31 @@
+[Unit]
+Description=Vault Agent
+Documentation=https://www.vaultproject.io/docs/agent/autoauth/index.html
+Requires=network-online.target cloud-final.service
+After=network-online.target
+
+[Service]
+User=root
+Group=root
+ExecStartPre=-/usr/bin/docker stop -t 60 vault-agent
+ExecStartPre=-/usr/bin/docker rm vault-agent
+ExecStart=/usr/bin/docker run \
+  --restart always \
+  --name "vault-agent" \
+  --network "vault" \
+  -e VAULT_ADDR=https://vault.example.com \
+  --memory "1g" \
+  --cpus "0.1" \
+  -v /etc/vault-agent:/vault-agent:rw \
+  -v secrets2:/secrets:rw \
+  --cap-add IPC_LOCK \
+  hashicorp/vault-enterprise:latest vault agent -log-level=debug -config=/vault-agent/config/vault-agent.hcl \
+
+Environment="VAULT_ADDR="https://vault.example.com"
+KillSignal=SIGTERM
+Restart=on-failure
+RestartSec=5s
+PermissionsStartOnly=true
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,4 @@
+sudo systemctl daemon-reload
+
+sudo systemctl start vault-agent.service
+sudo systemctl enable vault-agent.service

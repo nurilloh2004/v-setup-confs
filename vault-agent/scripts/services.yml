@@ -1,0 +1,12 @@
+---
+
+project:
+  name-main: project_name
+  services:
+    app-1:
+      options:
+        - mongo
+    app-2:
+     options:
+        - postgres
+
