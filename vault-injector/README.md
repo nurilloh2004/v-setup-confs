@@ -1,15 +1,15 @@
 # Setup vault injector to K8s with helm
 
-## Command running environment with zsh, Plugins (kubectl, .etc)
+### Command running environment with zsh, Plugins (kubectl, .etc)
 
-## Namespace in server = `vault`
+### Namespace in server = `vault`
 
 ```bash
 kubectl create namespace vault
 kubens vault
 ```
 
-# Add hashicorp/vault repo with helm
+### Add hashicorp/vault repo with helm
 
 ```bash
 helm repo add hashicorp https://helm.releases.hashicorp.com
