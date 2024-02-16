@@ -1,0 +1,14 @@
+[Unit]
+Description=HashiCorp Vault Service
+After=network.target
+
+[Service]
+User=user
+ExecStart=/usr/bin/vault server -config=/home/nurilloh/devops/vault/config/vault.hcl
+Restart=always
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

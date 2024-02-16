@@ -1,0 +1,11 @@
+---
+
+export VAULT_ADDR="http://127.0.0.1:8200"
+
+vault login
+
+vault operator init
+
+# Save 5 Seal key to safe destination
+
+
