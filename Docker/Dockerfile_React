@@ -1,0 +1,15 @@
+FROM node:14.16-alpine
+
+RUN mkdir app
+WORKDIR /app
+
+RUN apk update && apk add -U tzdata && cp /usr/share/zoneinfo/Asia/Tashkent /etc/localtime && apk del tzdata && apk add curl
+
+COPY package*.json ./
+COPY . ./
+
+RUN npm i --legacy-peer-deps
+
+RUN npm run build
+EXPOSE 3010
+ENTRYPOINT ["npm", "start"]

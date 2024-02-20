@@ -1,0 +1,15 @@
+FROM golang:1.16 as builder
+RUN mkdir -p $GOPATH/src/gitlab.example.com/group/example_service
+WORKDIR $GOPATH/src/gitlab.example.com/group/example_service`
+
+COPY . ./
+
+RUN export CGO_ENABLED=0 && \\
+export GOOS=linux && \\
+go mod vendor && \\
+make build && \\
+mv ./bin/example_service /
+
+FROM alpine
+COPY --from=builder example_service .
+ENTRYPOINT ["/example_service"]
