@@ -1,0 +1,33 @@
+version: '3.7'
+
+x-logging:
+  &loki
+  logging:
+    driver: loki
+    options:
+      loki-url: "http://192.168.0.1:3100/loki/api/v1/push"
+      loki-batch-size: "400"
+      loki-retries: "5"
+      max-size: "2g"
+
+services:
+  app1:
+    <<: *loki
+    image: registry.example.com/group/service:${version:-latest}
+    restart: always
+    ports:
+      - 3001:80
+
+  app2:
+    <<: *loki
+    image: registry.example.com/group/service2:${version:-latest}
+    restart: always
+    ports:
+      - 3003:80
+      - 8080:8080
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${UGAS_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${UGAS_POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${UGAS_POSTGRES_DATABASE}
